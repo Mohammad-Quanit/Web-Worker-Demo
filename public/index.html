@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let worker;
+    if (window.Worker) {
+      console.log('Workers are avaialable');
+      worker = new Worker('worker.js');
+      // sending some data via post message
+      worker.postMessage('do some work');
+      // getting some data via addeventlistener
+      worker.addEventListener('message', e => {
+        console.log(e)
+        document.body.innerHTML = e.data.message;
+        worker.terminate();
+        worker.postMessage('do some work');
+    });
+    }  
+  </script>
+  <h1>Waiting for data...</h1>
+</body>
+</html>
